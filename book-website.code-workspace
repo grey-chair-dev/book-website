@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../Downloads/test_website_enhancer-main/public"
+		},
+		{
+			"path": "../../Downloads/test_website_enhancer-main/scripts"
+		},
+		{
+			"path": "../../Downloads/test_website_enhancer-main/src"
+		}
+	],
+	"settings": {}
+}
