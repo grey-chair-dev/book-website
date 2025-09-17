@@ -68,7 +68,7 @@ const ContactForm: React.FC = () => {
             Get in Touch
           </h2>
           <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
-            Have questions about Suzanne Collins' books? We'd love to hear from you
+            Have questions about the Heirs of Eleusa series? We'd love to hear from you
           </p>
         </div>
 
@@ -228,12 +228,12 @@ const ContactForm: React.FC = () => {
                       For general inquiries and fan mail
                     </p>
                     <a
-                      href="mailto:contact@suzannecollins.com"
+                      href="mailto:contact@heirsofeleusa.com"
                       className="text-primary-600 hover:text-primary-700 font-medium"
                       tabIndex={0}
-                      aria-label="Send email to contact@suzannecollins.com"
+                      aria-label="Send email to contact@heirsofeleusa.com"
                     >
-                      contact@suzannecollins.com
+                      contact@heirsofeleusa.com
                     </a>
                   </div>
                 </div>
@@ -248,12 +248,12 @@ const ContactForm: React.FC = () => {
                       For press, interviews, and media requests
                     </p>
                     <a
-                      href="mailto:media@suzannecollins.com"
+                      href="mailto:media@heirsofeleusa.com"
                       className="text-primary-600 hover:text-primary-700 font-medium"
                       tabIndex={0}
-                      aria-label="Send media inquiry to media@suzannecollins.com"
+                      aria-label="Send media inquiry to media@heirsofeleusa.com"
                     >
-                      media@suzannecollins.com
+                      media@heirsofeleusa.com
                     </a>
                   </div>
                 </div>
@@ -268,8 +268,8 @@ const ContactForm: React.FC = () => {
                       For publishing and book-related inquiries
                     </p>
                     <p className="text-secondary-600">
-                      Scholastic Inc.<br />
-                      New York, NY
+                      C.E. Scott<br />
+                      Cincinnati, OH
                     </p>
                   </div>
                 </div>

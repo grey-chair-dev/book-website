@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, BookOpen, Star } from 'lucide-react';
+import { ArrowRight, BookOpen } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const handleLearnMore = () => {
@@ -20,15 +20,14 @@ const Hero: React.FC = () => {
           <div className="space-y-8 animate-fade-in">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-6xl font-serif font-bold text-secondary-900 leading-tight">
-                The Official
-                <span className="block text-primary-600">Suzanne Collins</span>
+                <span className="block text-primary-600">Heirs of Eleusa</span>
                 <span className="block text-2xl md:text-3xl font-normal text-secondary-600 mt-2">
-                  Website
+                  Epic Fantasy Series
                 </span>
               </h1>
               
               <p className="text-lg md:text-xl text-secondary-700 max-w-2xl">
-                Discover the worlds of The Hunger Games, The Underland Chronicles, and more bestselling young adult literature that has captivated readers worldwide.
+                Step into a world where heroes must claim their destinies to fulfill the Great Prophecy and save the kingdoms of Eleusa. An ancient prophecy foretells of chosen ones who will rise when the world needs them most.
               </p>
             </div>
 
@@ -38,61 +37,38 @@ const Hero: React.FC = () => {
                 onKeyDown={handleKeyDown}
                 className="btn-primary inline-flex items-center gap-2"
                 tabIndex={0}
-                aria-label="Learn more about Suzanne Collins' books"
+                aria-label="Learn more about the Heirs of Eleusa series"
               >
                 Explore Books
                 <ArrowRight className="h-5 w-5" aria-hidden="true" />
               </button>
               
-              <button
-                onClick={() => document.getElementById('resources')?.scrollIntoView({ behavior: 'smooth' })}
-                className="btn-secondary inline-flex items-center gap-2"
-                tabIndex={0}
-                aria-label="View educational resources"
-              >
-                <BookOpen className="h-5 w-5" aria-hidden="true" />
-                Resources
-              </button>
-            </div>
-
-            <div className="flex items-center gap-6 text-sm text-secondary-600">
-              <div className="flex items-center gap-1">
-                <Star className="h-4 w-4 text-yellow-500 fill-current" aria-hidden="true" />
-                <span>55+ Languages</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <BookOpen className="h-4 w-4 text-primary-500" aria-hidden="true" />
-                <span>Millions of Readers</span>
-              </div>
             </div>
           </div>
-
           <div className="relative animate-slide-up">
+            {/* Book Details Card */}
             <div className="bg-white rounded-2xl shadow-2xl p-8 transform rotate-3 hover:rotate-0 transition-transform duration-300">
-              <div className="space-y-4">
-                <div className="w-16 h-2 bg-primary-500 rounded-full"></div>
-                <h3 className="text-xl font-serif font-bold text-secondary-900">
-                  Latest Release
+              <div className="space-y-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-16 h-2 bg-primary-500 rounded-full"></div>
+                  <span className="text-sm font-medium text-primary-600">Latest Release</span>
+                </div>
+                
+                <h3 className="text-2xl font-serif font-bold text-secondary-900">
+                  The Storm-Veiled Light
                 </h3>
-                <div className="bg-gradient-to-r from-primary-100 to-secondary-100 rounded-lg p-6">
-                  <h4 className="text-lg font-semibold text-secondary-900 mb-2">
-                    Sunrise on the Reaping
-                  </h4>
-                  <p className="text-secondary-700 text-sm mb-4">
-                    The highly anticipated new novel in The Hunger Games series, exploring the origins of the Games and the world of Panem.
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-primary-600 font-medium">Available Now</span>
-                    <div className="flex gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 text-yellow-500 fill-current" aria-hidden="true" />
-                      ))}
-                    </div>
-                  </div>
+                
+                <p className="text-secondary-700 leading-relaxed">
+                  The epic conclusion of the Heirs of Eleusa series, where heroes unite against the sorcerer king to save their world.
+                </p>
+                
+                <div className="flex items-center justify-between pt-4">
+                  <span className="text-primary-600 font-medium">Available Now</span>
                 </div>
               </div>
             </div>
             
+            {/* Decorative Book Icon */}
             <div className="absolute -top-4 -right-4 bg-secondary-900 text-white rounded-full p-3 shadow-lg">
               <BookOpen className="h-6 w-6" aria-hidden="true" />
             </div>

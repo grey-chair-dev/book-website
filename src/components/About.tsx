@@ -3,10 +3,10 @@ import { Award, Globe, Users, BookOpen } from 'lucide-react';
 
 const About: React.FC = () => {
   const stats = [
-    { icon: BookOpen, label: 'Published Books', value: '15+' },
-    { icon: Globe, label: 'Languages', value: '55+' },
-    { icon: Users, label: 'Readers Worldwide', value: 'Millions' },
-    { icon: Award, label: 'Awards', value: 'Multiple' },
+    { icon: BookOpen, label: 'Books in Series', value: '3' },
+    { icon: Globe, label: 'Kingdoms', value: '5+' },
+    { icon: Users, label: 'Heroes', value: 'Multiple' },
+    { icon: Award, label: 'Prophecy', value: 'Great' },
   ];
 
   return (
@@ -14,10 +14,10 @@ const About: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-secondary-900 mb-4">
-            About Suzanne Collins
+            About the Heirs of Eleusa
           </h2>
           <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
-            A bestselling author whose works have captivated readers of all ages around the world
+            Adventure, Magic, Wonder, Truth, Beauty & Goodness - An epic fantasy series inspired by the great works of Tolkien, Lewis, and Peterson
           </p>
         </div>
 
@@ -25,22 +25,22 @@ const About: React.FC = () => {
           <div className="space-y-6">
             <div className="prose prose-lg max-w-none">
               <p className="text-secondary-700 leading-relaxed">
-                Suzanne Collins is the internationally bestselling author of The Hunger Games trilogy, 
-                The Underland Chronicles, and other acclaimed works for young readers. Her books have 
-                been translated into more than 55 languages and have sold millions of copies worldwide.
+                Long ago, after the Great War, a Mira prophetess saw a vision of a great darkness that would rise, 
+                the heroes that would be challenged to confront it, and that the fate of the world relies on their choices. 
+                The Heirs of Eleusa tells the tale of this ancient prophecy's fulfillment, following a small band of heroes who must 
+                claim their destinies to save the kingdoms of the west.
               </p>
               
               <p className="text-secondary-700 leading-relaxed">
-                Born in Hartford, Connecticut, Collins began her career writing for children's television 
-                before transitioning to writing books. Her work spans multiple genres, from fantasy and 
-                science fiction to contemporary fiction, always with a focus on strong characters and 
-                compelling storytelling.
+                Step into the world of Eleusa, where magic flows through the very fabric of reality and ancient prophecies 
+                guide the fate of kingdoms. As war advances and darkness threatens to consume all, heroes must rise to 
+                discover their true identities and unite against the forces of evil.
               </p>
               
               <p className="text-secondary-700 leading-relaxed">
-                Collins' writing is known for its exploration of complex themes such as war, survival, 
-                and the human condition, making her books popular not only with young readers but also 
-                with educators and book clubs worldwide.
+                This epic three-part series follows the journey of chosen ones as they learn to embrace their destinies, 
+                forge unbreakable bonds of friendship, and discover that the greatest adventures come from stepping into 
+                who you were meant to be. Adventure, magic, wonder, truth, beauty, and goodness await in the world of Eleusa.
               </p>
             </div>
           </div>
@@ -49,30 +49,30 @@ const About: React.FC = () => {
             <div className="bg-gradient-to-br from-primary-100 to-secondary-100 rounded-2xl p-8">
               <div className="space-y-6">
                 <h3 className="text-2xl font-serif font-bold text-secondary-900">
-                  Notable Achievements
+                  The World of Eleusa
                 </h3>
                 
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Award className="h-6 w-6 text-white" aria-hidden="true" />
+                      <Globe className="h-6 w-6 text-white" aria-hidden="true" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-secondary-900">Bestselling Author</h4>
+                      <h4 className="font-semibold text-secondary-900">Five Kingdoms</h4>
                       <p className="text-secondary-600 text-sm">
-                        Multiple New York Times bestsellers with worldwide recognition
+                        Cebola, Azora, Montressar, Kalar, and the mysterious lands beyond
                       </p>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-secondary-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Globe className="h-6 w-6 text-white" aria-hidden="true" />
+                      <Award className="h-6 w-6 text-white" aria-hidden="true" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-secondary-900">Global Reach</h4>
+                      <h4 className="font-semibold text-secondary-900">The Great Prophecy</h4>
                       <p className="text-secondary-600 text-sm">
-                        Books available in over 55 languages across all continents
+                        An ancient vision that foretells the rise of chosen heroes
                       </p>
                     </div>
                   </div>
@@ -82,9 +82,9 @@ const About: React.FC = () => {
                       <Users className="h-6 w-6 text-white" aria-hidden="true" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-secondary-900">Educational Impact</h4>
+                      <h4 className="font-semibold text-secondary-900">Heroes & Magic</h4>
                       <p className="text-secondary-600 text-sm">
-                        Widely used in schools and educational programs worldwide
+                        Where destiny calls and magic flows through every choice
                       </p>
                     </div>
                   </div>

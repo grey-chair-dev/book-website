@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const handleToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -15,13 +15,13 @@ const Header: React.FC = () => {
   };
 
   const navigationItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Books', href: '#books' },
-    { name: 'Series', href: '#series' },
-    { name: 'Resources', href: '#resources' },
-    { name: 'News', href: '#news' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '/' },
+    { name: 'Book 1', href: '/book/the-heir-of-cebola' },
+    { name: 'Book 2', href: '/book/the-fox-prince' },
+    { name: 'Book 3', href: '/book/the-storm-veiled-light' },
+    { name: 'About', href: '/about' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -30,22 +30,34 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
             <h1 className="text-2xl font-serif font-bold text-primary-700">
-              Suzanne Collins
+              Heirs of Eleusa
             </h1>
+            <p className="text-xs text-secondary-500 -mt-1">Epic Fantasy Series</p>
           </div>
           
           <nav className="hidden md:block">
-            <ul className="flex space-x-8">
+            <ul className="flex space-x-6">
               {navigationItems.map((item) => (
                 <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="text-secondary-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                    tabIndex={0}
-                    aria-label={`Navigate to ${item.name} section`}
-                  >
-                    {item.name}
-                  </a>
+                  {item.href.startsWith('/') ? (
+                    <Link
+                      to={item.href}
+                      className="text-secondary-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                      tabIndex={0}
+                      aria-label={`Navigate to ${item.name}`}
+                    >
+                      {item.name}
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.href}
+                      className="text-secondary-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                      tabIndex={0}
+                      aria-label={`Navigate to ${item.name} section`}
+                    >
+                      {item.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -73,16 +85,29 @@ const Header: React.FC = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-secondary-200">
               {navigationItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-secondary-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                  tabIndex={0}
-                  aria-label={`Navigate to ${item.name} section`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
+                <div key={item.name}>
+                  {item.href.startsWith('/') ? (
+                    <Link
+                      to={item.href}
+                      className="text-secondary-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                      tabIndex={0}
+                      aria-label={`Navigate to ${item.name}`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.href}
+                      className="text-secondary-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                      tabIndex={0}
+                      aria-label={`Navigate to ${item.name} section`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </a>
+                  )}
+                </div>
               ))}
             </div>
           </div>

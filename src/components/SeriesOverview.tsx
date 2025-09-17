@@ -4,28 +4,16 @@ import { ArrowRight, BookOpen, Users, Globe } from 'lucide-react';
 const SeriesOverview: React.FC = () => {
   const series = [
     {
-      name: 'The Hunger Games',
-      description: 'A dystopian trilogy set in the nation of Panem, where children are forced to fight to the death in an annual televised event.',
-      books: 5,
-      firstBook: '2008',
+      name: 'Heirs of Eleusa',
+      description: 'An epic fantasy series following the fulfillment of the Great Prophecy, where a small band of heroes must claim their destinies to save the kingdoms of the west from the sorcerer king of Kalar.',
+      books: 3,
+      firstBook: '2024',
       lastBook: '2025',
-      status: 'Ongoing',
-      themes: ['Survival', 'Revolution', 'Media', 'Power'],
-      audience: 'Young Adult',
-      awards: ['New York Times Bestseller', 'Multiple Awards'],
-      cover: 'hunger-games-series'
-    },
-    {
-      name: 'The Underland Chronicles',
-      description: 'A fantasy series following Gregor, a young boy who discovers a hidden world beneath New York City filled with giant creatures.',
-      books: 5,
-      firstBook: '2003',
-      lastBook: '2007',
       status: 'Completed',
-      themes: ['Adventure', 'Family', 'Destiny', 'War'],
-      audience: 'Middle Grade',
-      awards: ['Children\'s Choice Award', 'Critical Acclaim'],
-      cover: 'underland-series'
+      themes: ['Adventure', 'Magic', 'Wonder', 'Truth', 'Beauty', 'Goodness'],
+      audience: 'Young Adult',
+      awards: ['Epic Fantasy Series', 'Critical Acclaim'],
+      cover: 'heirs-of-eleusa-series'
     }
   ];
 
@@ -44,10 +32,10 @@ const SeriesOverview: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-secondary-900 mb-4">
-            Book Series
+            The Epic Fantasy Series
           </h2>
           <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
-            Dive deep into the immersive worlds and compelling narratives of Suzanne Collins' acclaimed series
+            Discover the complete Heirs of Eleusa series - an epic tale of destiny, magic, and the heroes who will save their world
           </p>
         </div>
 
@@ -91,10 +79,6 @@ const SeriesOverview: React.FC = () => {
                         <span className="font-medium">{seriesData.firstBook}</span>
                         <span className="mx-2">-</span>
                         <span className="font-medium">{seriesData.lastBook}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-secondary-600">
-                        <Globe className="h-5 w-5" aria-hidden="true" />
-                        <span className="font-medium">55+ Languages</span>
                       </div>
                     </div>
                   </div>
@@ -140,16 +124,12 @@ const SeriesOverview: React.FC = () => {
                 </div>
 
                 <div className="relative">
-                  <div className="bg-gradient-to-br from-primary-100 to-secondary-200 rounded-2xl p-8 h-96 flex items-center justify-center">
-                    <div className="text-center">
-                      <BookOpen className="h-16 w-16 text-primary-600 mx-auto mb-4" aria-hidden="true" />
-                      <p className="text-lg text-secondary-700 font-medium">
-                        {seriesData.cover.replace('-', ' ').toUpperCase()}
-                      </p>
-                      <p className="text-sm text-secondary-600 mt-2">
-                        Series Cover Art
-                      </p>
-                    </div>
+                  <div className="h-96 series-cover">
+                    <img
+                      src={`/images/covers/${seriesData.cover}.avif`}
+                      alt={`${seriesData.name} series cover`}
+                      loading="lazy"
+                    />
                   </div>
                   
                   <div className="absolute -bottom-4 -left-4 bg-white rounded-lg shadow-lg p-4">

@@ -69,7 +69,7 @@ const NotFound: React.FC = () => {
               href="#about"
               className="text-primary-600 hover:text-primary-700 font-medium transition-colors duration-200"
               tabIndex={0}
-              aria-label="About Suzanne Collins"
+              aria-label="About the Heirs of Eleusa"
             >
               About
             </a>

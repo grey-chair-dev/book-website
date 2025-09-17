@@ -1,14 +1,14 @@
-# Suzanne Collins - Official Website
+# Heirs of Eleusa - Official Website
 
-A modern, responsive website for bestselling author Suzanne Collins, built with React, TypeScript, and TailwindCSS.
+A modern, responsive website for bestselling author C.E. Scott, built with React, TypeScript, and TailwindCSS.
 
 ## About This Project
 
-This is a **demonstration project** showcasing the capabilities of our website rebuilding service. We rebuilt Suzanne Collins' original website to demonstrate how we can transform outdated websites into modern, high-performing digital experiences.
+This is a **demonstration project** showcasing the capabilities of our website rebuilding service. We rebuilt C.E. Scott's original website to demonstrate how we can transform outdated websites into modern, high-performing digital experiences.
 
 ### Original Website Analysis
 
-The original Suzanne Collins website suffered from several common issues that plague outdated websites:
+The original C.E. Scott website suffered from several common issues that plague outdated websites:
 
 - **Poor Mobile Experience**: Non-responsive design that didn't work well on modern devices
 - **Outdated Design**: Visual design that looked dated and didn't reflect current web standards
@@ -98,7 +98,7 @@ We're a two-person team that rebuilds websites from the ground up using AI and m
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd suzanne-collins-website
+cd heirs-of-eleusa
 ```
 
 2. Install dependencies:
