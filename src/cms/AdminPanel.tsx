@@ -7,7 +7,6 @@ interface AdminPanelProps {
 
 const AdminPanel: React.FC<AdminPanelProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<'books' | 'blog' | 'author'>('books');
-  const [isEditing, setIsEditing] = useState(false);
 
   const tabs = [
     { id: 'books', label: 'Books', icon: BookOpen },

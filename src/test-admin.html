@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Test</title>
+</head>
+<body>
+    <h1>Admin System Test</h1>
+    <p>Testing admin routes:</p>
+    <ul>
+        <li><a href="/admin">Admin Login</a></li>
+        <li><a href="/admin/dashboard">Admin Dashboard (should redirect to login)</a></li>
+        <li><a href="/">Main Site</a></li>
+    </ul>
+    
+    <h2>Test Credentials:</h2>
+    <p><strong>Username:</strong> admin</p>
+    <p><strong>Password:</strong> heirsofeleusa2024</p>
+    
+    <h2>Expected Behavior:</h2>
+    <ul>
+        <li>/admin should show login form</li>
+        <li>/admin/dashboard should redirect to /admin if not logged in</li>
+        <li>After login, should redirect to /admin/dashboard</li>
+        <li>Dashboard should show books, blog posts, and author management</li>
+    </ul>
+</body>
+</html>
