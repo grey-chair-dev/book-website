@@ -1,0 +1,82 @@
+{
+  "blogPosts": [
+    {
+      "id": 1,
+      "title": "The Inspiration Behind Eleusa",
+      "excerpt": "Discover how the world of Eleusa came to life from bedtime stories to epic fantasy series.",
+      "content": "Once upon a time, there was a little girl who couldn't sleep. So she started telling herself stories to keep her mind off of the real world. And, well, that's how the world of Eleusa was born.\n\nIt grew as I improved on those initial stories, the characters moved into my head, and I started sharing the stories (badly!) with my siblings to keep us entertained while not sleeping in anticipation of Christmas morning.\n\nIf it wasn't for their encouragement and the encouragement of some friends from college and beyond, (and lots of well-placed Holy Spirit inspiration!) Eleusa as you know probably would not exist.",
+      "date": "2024-12-15",
+      "readTime": "5 min read",
+      "category": "Behind the Scenes",
+      "featured": true,
+      "tags": ["inspiration", "writing process", "personal"],
+      "author": "C.E. Scott",
+      "published": true
+    },
+    {
+      "id": 2,
+      "title": "Writing Fantasy with Purpose",
+      "excerpt": "Exploring how faith and fantasy can work together to tell meaningful stories.",
+      "content": "Fantasy literature has always been a powerful medium for exploring deep truths about human nature, morality, and the eternal struggle between good and evil. In the Heirs of Eleusa series, I wanted to create a world where these themes could be explored in a way that resonates with readers of all ages.\n\nWriting fantasy with purpose means more than just creating an entertaining story—it means crafting a narrative that speaks to the heart and challenges the mind. Each character's journey reflects real struggles we all face, and the magical elements serve to amplify these human experiences.",
+      "date": "2024-12-10",
+      "readTime": "7 min read",
+      "category": "Writing Process",
+      "featured": false,
+      "tags": ["writing", "faith", "fantasy", "purpose"],
+      "author": "C.E. Scott",
+      "published": true
+    },
+    {
+      "id": 3,
+      "title": "Character Development: Creating Heroes",
+      "excerpt": "The process of crafting characters that readers can connect with and root for.",
+      "content": "Creating compelling characters is one of the most challenging and rewarding aspects of writing fantasy. In the Heirs of Eleusa series, each character represents different aspects of the hero's journey, from the reluctant hero to the wise mentor to the loyal companion.\n\nWhat makes a character truly memorable isn't their powers or abilities, but their humanity. Their flaws, their growth, their relationships with others—these are the elements that make readers care about their fate.",
+      "date": "2024-12-05",
+      "readTime": "6 min read",
+      "category": "Writing Process",
+      "featured": false,
+      "tags": ["characters", "development", "heroes", "writing"],
+      "author": "C.E. Scott",
+      "published": true
+    },
+    {
+      "id": 4,
+      "title": "World-Building: The Kingdoms of Eleusa",
+      "excerpt": "A deep dive into the geography, politics, and magic systems of the Eleusa universe.",
+      "content": "The world of Eleusa is vast and complex, with five major kingdoms each with their own unique culture, politics, and magical traditions. From the mountainous realm of Cebola to the coastal cities of the Eastern Kingdoms, each location serves both the story and the deeper themes of the series.\n\nThe magic system in Eleusa is based on the concept of inherited gifts—powers that are passed down through bloodlines but must be awakened and developed through training and experience. This creates both opportunities and responsibilities for the characters who possess these abilities.",
+      "date": "2024-11-28",
+      "readTime": "8 min read",
+      "category": "World Building",
+      "featured": false,
+      "tags": ["world building", "magic", "kingdoms", "geography"],
+      "author": "C.E. Scott",
+      "published": true
+    },
+    {
+      "id": 5,
+      "title": "From Campus Minister to Author",
+      "excerpt": "How my work in ministry influences my storytelling and character development.",
+      "content": "Working as a campus minister has given me unique insights into the challenges and triumphs that young people face today. These experiences directly influence how I write about the struggles and growth of my characters.\n\nThe themes of faith, hope, and perseverance that are central to the Heirs of Eleusa series come not just from my personal beliefs, but from witnessing the incredible strength and resilience of the students I work with every day.",
+      "date": "2024-11-20",
+      "readTime": "4 min read",
+      "category": "Personal",
+      "featured": false,
+      "tags": ["ministry", "personal", "faith", "students"],
+      "author": "C.E. Scott",
+      "published": true
+    },
+    {
+      "id": 6,
+      "title": "The Great Prophecy: Themes and Symbolism",
+      "excerpt": "Exploring the deeper meanings and themes woven throughout the Heirs of Eleusa series.",
+      "content": "The Great Prophecy that drives the plot of the Heirs of Eleusa series is more than just a plot device—it's a reflection of the universal human experience of being called to something greater than ourselves.\n\nEach character's response to the prophecy reveals something about their nature and their growth throughout the series. Some embrace their destiny immediately, while others resist it, and still others must discover what their role truly is.",
+      "date": "2024-11-15",
+      "readTime": "9 min read",
+      "category": "Analysis",
+      "featured": false,
+      "tags": ["prophecy", "themes", "symbolism", "analysis"],
+      "author": "C.E. Scott",
+      "published": true
+    }
+  ]
+}

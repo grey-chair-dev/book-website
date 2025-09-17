@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { PenTool, Calendar, ArrowRight, ExternalLink } from 'lucide-react';
 import Header from './Header';
 import Footer from './Footer';

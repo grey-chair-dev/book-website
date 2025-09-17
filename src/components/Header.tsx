@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AdminPanel from '../cms/AdminPanel';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  
   const handleToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleAdminToggle = () => {
+    setIsAdminOpen(!isAdminOpen);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -113,6 +120,21 @@ const Header: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Admin Button */}
+      <button
+        onClick={handleAdminToggle}
+        className="fixed bottom-4 right-4 bg-primary-600 text-white p-3 rounded-full shadow-lg hover:bg-primary-700 transition-colors z-40"
+        title="Content Management"
+        aria-label="Open content management panel"
+      >
+        <Settings className="h-5 w-5" />
+      </button>
+
+      {/* Admin Panel */}
+      {isAdminOpen && (
+        <AdminPanel onClose={() => setIsAdminOpen(false)} />
+      )}
     </header>
   );
 };

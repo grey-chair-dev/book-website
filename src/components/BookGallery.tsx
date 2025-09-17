@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ExternalLink, Calendar, BookOpen } from 'lucide-react';
+import { ExternalLink, Calendar } from 'lucide-react';
 import { books } from '../data/books';
 
 const BookGallery: React.FC = () => {

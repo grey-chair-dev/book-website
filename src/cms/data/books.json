@@ -1,0 +1,64 @@
+{
+  "books": [
+    {
+      "id": "heir-of-cebola",
+      "title": "The Heir of Cebola",
+      "series": "Heirs of Eleusa",
+      "bookNumber": 1,
+      "year": "2024",
+      "description": "The first book in the epic Heirs of Eleusa series, following the journey of a young hero who must claim their destiny.",
+      "fullDescription": "In the kingdom of Cebola, where ancient magic flows through the land, a young heir discovers their true destiny. When the Great Prophecy begins to unfold, they must choose between safety and the call to adventure that will change their world forever.",
+      "cover": "heir-of-cebola",
+      "featured": true,
+      "characters": ["The Heir", "Mentor", "Guardian"],
+      "themes": ["Destiny", "Courage", "Magic", "Family"],
+      "quotes": [
+        "Every hero's journey begins with a single step into the unknown.",
+        "The greatest magic is found not in spells, but in the choices we make."
+      ],
+      "author": "C.E. Scott",
+      "genre": ["Fantasy", "Adventure", "Young Adult"],
+      "awards": ["Featured Book of the Month"]
+    },
+    {
+      "id": "fox-prince",
+      "title": "The Fox Prince",
+      "series": "Heirs of Eleusa",
+      "bookNumber": 2,
+      "year": "2024",
+      "description": "The second installment where alliances are tested and new powers emerge in the world of Eleusa.",
+      "fullDescription": "As the Heir's journey continues, they discover that not all who claim to be allies can be trusted. The Fox Prince emerges as both friend and foe, testing the hero's resolve and revealing deeper mysteries about the Great Prophecy.",
+      "cover": "fox-prince",
+      "featured": false,
+      "characters": ["The Heir", "Fox Prince", "Ancient Guardian"],
+      "themes": ["Trust", "Betrayal", "Wisdom", "Power"],
+      "quotes": [
+        "In the game of thrones, even foxes have their reasons.",
+        "True power comes not from what you can take, but what you choose to give."
+      ],
+      "author": "C.E. Scott",
+      "genre": ["Fantasy", "Political Intrigue", "Young Adult"],
+      "awards": []
+    },
+    {
+      "id": "storm-veiled-light",
+      "title": "The Storm-Veiled Light",
+      "series": "Heirs of Eleusa",
+      "bookNumber": 3,
+      "year": "2024",
+      "description": "The epic conclusion where all heroes unite against the darkness threatening to consume Eleusa.",
+      "fullDescription": "In the final chapter of the Heirs of Eleusa series, the Great Prophecy reaches its climax. The Heir must gather all the chosen ones and face the ultimate evil that threatens to destroy everything they hold dear. The fate of Eleusa hangs in the balance.",
+      "cover": "storm-veiled-light",
+      "featured": false,
+      "characters": ["The Heir", "All Chosen Ones", "The Dark Sorcerer"],
+      "themes": ["Sacrifice", "Unity", "Hope", "Redemption"],
+      "quotes": [
+        "When the storm comes, the light within us shines brightest.",
+        "Together, we are more than the sum of our parts."
+      ],
+      "author": "C.E. Scott",
+      "genre": ["Fantasy", "Epic", "Young Adult"],
+      "awards": ["Series Finale"]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Calendar, ExternalLink, BookOpen, PenTool } from 'lucide-react';
+import { Calendar, ExternalLink, PenTool } from 'lucide-react';
 
-const NewsUpdates: React.FC = () => {
+const Blog: React.FC = () => {
   const blogPosts = [
     {
       title: 'The Inspiration Behind The Heirs of Eleusa',
@@ -142,4 +142,4 @@ const NewsUpdates: React.FC = () => {
   );
 };
 
-export default NewsUpdates; 
+export default Blog; 

@@ -1,0 +1,35 @@
+{
+  "author": {
+    "name": "C.E. Scott",
+    "fullName": "Claire Scott",
+    "bio": "Claire Scott is a wife, high school campus minister, and fantasy author living in Cincinnati, OH. She graduated from Purdue University in 2019 and discerned a call to serve the Church through the Echo Program at the University of Notre Dame. She graduated with a master's in Theology in 2021 and now loves helping to form her high schoolers, write good, true, and beautiful stories, cook for her husband, Charlie, and laugh at the antics of their two cats.",
+    "image": "/images/author/ce-scott.avif",
+    "location": "Cincinnati, Ohio",
+    "education": [
+      "Purdue University (2019)",
+      "Notre Dame Master's in Theology (2021)",
+      "Echo Program Graduate"
+    ],
+    "personal": [
+      "Wife to Charlie",
+      "Two cats and lots of laughter",
+      "Loves cooking and storytelling"
+    ],
+    "writingJourney": [
+      "Started with bedtime stories",
+      "Christmas Eve storytelling tradition",
+      "Holy Spirit inspired"
+    ],
+    "socialMedia": {
+      "website": "https://heirsofeleusa.com",
+      "email": "claire@heirsofeleusa.com",
+      "booksEmail": "books@heirsofeleusa.com"
+    },
+    "stats": {
+      "booksInSeries": 3,
+      "kingdoms": "5+",
+      "heroes": "Multiple",
+      "prophecy": "Great"
+    }
+  }
+}
