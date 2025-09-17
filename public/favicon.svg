@@ -1,0 +1,22 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sword Blade -->
+  <path d="M16 2L18 6L16 8L14 6L16 2Z" fill="#4A5568"/>
+  <path d="M16 8L18 24L16 26L14 24L16 8Z" fill="#2D3748"/>
+  
+  <!-- Sword Crossguard -->
+  <rect x="12" y="24" width="8" height="2" fill="#8B4513"/>
+  <rect x="13" y="25" width="6" height="1" fill="#A0522D"/>
+  
+  <!-- Sword Handle -->
+  <rect x="15" y="26" width="2" height="4" fill="#8B4513"/>
+  <rect x="15.5" y="26.5" width="1" height="3" fill="#A0522D"/>
+  
+  <!-- Sword Pommel -->
+  <circle cx="16" cy="30" r="1.5" fill="#8B4513"/>
+  <circle cx="16" cy="30" r="1" fill="#A0522D"/>
+  
+  <!-- Decorative Elements -->
+  <circle cx="16" cy="4" r="0.5" fill="#E2E8F0"/>
+  <circle cx="16" cy="12" r="0.5" fill="#E2E8F0"/>
+  <circle cx="16" cy="20" r="0.5" fill="#E2E8F0"/>
+</svg>
