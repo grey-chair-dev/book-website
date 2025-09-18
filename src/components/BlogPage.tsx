@@ -24,6 +24,7 @@ interface BlogPost {
   view_count?: number;
   like_count?: number;
   comment_count?: number;
+  slug?: string;
   published: boolean;
 }
 
@@ -123,7 +124,7 @@ const BlogPage: React.FC = () => {
                       </div>
                       
                       <Link
-                        to={`/blog/${post.id}`}
+                        to={`/blog/${post.slug || post.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-primary inline-flex items-center gap-2"
@@ -136,11 +137,22 @@ const BlogPage: React.FC = () => {
                     <div className="relative">
                       <div className="bg-white rounded-xl p-6 shadow-lg">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                          {post.author_image ? (
+                            <img
+                              src={post.author_image}
+                              alt={post.author || 'Author'}
+                              className="w-12 h-12 rounded-full object-cover"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                              }}
+                            />
+                          ) : null}
+                          <div className={`w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center ${post.author_image ? 'hidden' : ''}`}>
                             <PenTool className="h-6 w-6 text-primary-600" aria-hidden="true" />
                           </div>
                           <div>
-                            <h4 className="font-semibold text-secondary-900">C.E. Scott</h4>
+                            <h4 className="font-semibold text-secondary-900">{post.author || 'C.E. Scott'}</h4>
                             <p className="text-sm text-secondary-600">Author & Campus Minister</p>
                           </div>
                         </div>
@@ -227,7 +239,7 @@ const BlogPage: React.FC = () => {
                         </div>
                         
                         <Link
-                          to={`/blog/${post.id}`}
+                          to={`/blog/${post.slug || post.id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-primary-600 hover:text-primary-700 font-medium text-sm inline-flex items-center gap-1 transition-colors duration-200"
@@ -235,6 +247,25 @@ const BlogPage: React.FC = () => {
                           Read More
                           <ExternalLink className="h-4 w-4" aria-hidden="true" />
                         </Link>
+                      </div>
+
+                      {/* Author info */}
+                      <div className="flex items-center gap-2 pt-2">
+                        {post.author_image ? (
+                          <img
+                            src={post.author_image}
+                            alt={post.author || 'Author'}
+                            className="w-5 h-5 rounded-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                            }}
+                          />
+                        ) : null}
+                        <div className={`w-5 h-5 bg-primary-100 rounded-full flex items-center justify-center ${post.author_image ? 'hidden' : ''}`}>
+                          <PenTool className="h-3 w-3 text-primary-600" />
+                        </div>
+                        <span className="text-sm text-secondary-500">{post.author || 'C.E. Scott'}</span>
                       </div>
                       
                       <div className="flex items-center justify-between pt-2 border-t border-gray-100">

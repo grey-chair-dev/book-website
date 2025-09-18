@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MessageCircle, Send, Loader2, User, Calendar, Reply } from 'lucide-react';
-import { likesCommentsService, BlogComment, CreateCommentData } from '../services/mockLikesCommentsService';
+import { likesCommentsService, BlogComment, CreateCommentData } from '../services/realLikesCommentsService';
 
 interface CommentsProps {
   blogPostId: number;

@@ -1,11 +1,11 @@
 // Real admin service that uses the database API
-const API_BASE_URL = 'http://localhost:3001/api';
+import { buildApiUrl } from '../config/api';
 
 class RealAdminService {
   // Books
   static async getAllBooks() {
     try {
-      const response = await fetch(`${API_BASE_URL}/books`);
+      const response = await fetch(buildApiUrl('/books'));
       if (!response.ok) throw new Error('Failed to fetch books');
       return await response.json();
     } catch (error) {
@@ -16,7 +16,7 @@ class RealAdminService {
 
   static async createBook(bookData: any) {
     try {
-      const response = await fetch(`${API_BASE_URL}/books`, {
+      const response = await fetch(buildApiUrl('/books'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bookData)
@@ -31,7 +31,7 @@ class RealAdminService {
 
   static async updateBook(id: string, bookData: any) {
     try {
-      const response = await fetch(`${API_BASE_URL}/books/${id}`, {
+      const response = await fetch(buildApiUrl(`/books/${id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bookData)
@@ -46,7 +46,7 @@ class RealAdminService {
 
   static async deleteBook(id: string) {
     try {
-      const response = await fetch(`${API_BASE_URL}/books/${id}`, {
+      const response = await fetch(buildApiUrl(`/books/${id}`), {
         method: 'DELETE'
       });
       if (!response.ok) throw new Error('Failed to delete book');
@@ -60,7 +60,7 @@ class RealAdminService {
   // Blog Posts
   static async getAllBlogPosts() {
     try {
-      const response = await fetch(`${API_BASE_URL}/blog-posts`);
+      const response = await fetch(buildApiUrl('/blog-posts'));
       if (!response.ok) throw new Error('Failed to fetch blog posts');
       return await response.json();
     } catch (error) {
@@ -71,7 +71,7 @@ class RealAdminService {
 
   static async createBlogPost(postData: any) {
     try {
-      const response = await fetch(`${API_BASE_URL}/blog-posts`, {
+      const response = await fetch(buildApiUrl('/blog-posts'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postData)
@@ -86,7 +86,7 @@ class RealAdminService {
 
   static async updateBlogPost(id: number, postData: any) {
     try {
-      const response = await fetch(`${API_BASE_URL}/blog-posts/${id}`, {
+      const response = await fetch(buildApiUrl(`/blog-posts/${id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postData)
@@ -101,7 +101,7 @@ class RealAdminService {
 
   static async deleteBlogPost(id: number) {
     try {
-      const response = await fetch(`${API_BASE_URL}/blog-posts/${id}`, {
+      const response = await fetch(buildApiUrl(`/blog-posts/${id}`), {
         method: 'DELETE'
       });
       if (!response.ok) throw new Error('Failed to delete blog post');
@@ -115,7 +115,7 @@ class RealAdminService {
   // Author
   static async getAuthor() {
     try {
-      const response = await fetch(`${API_BASE_URL}/author`);
+      const response = await fetch(buildApiUrl('/author'));
       if (!response.ok) throw new Error('Failed to fetch author');
       return await response.json();
     } catch (error) {
@@ -126,7 +126,7 @@ class RealAdminService {
 
   static async updateAuthor(authorData: any) {
     try {
-      const response = await fetch(`${API_BASE_URL}/author`, {
+      const response = await fetch(buildApiUrl('/author'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(authorData)
@@ -147,7 +147,7 @@ class RealAdminService {
   // Comments
   static async getAllComments() {
     try {
-      const response = await fetch(`${API_BASE_URL}/comments`);
+      const response = await fetch(buildApiUrl('/comments'));
       if (!response.ok) throw new Error('Failed to fetch comments');
       return await response.json();
     } catch (error) {
@@ -158,7 +158,7 @@ class RealAdminService {
 
   static async updateCommentStatus(commentId: number, status: 'approved' | 'rejected') {
     try {
-      const response = await fetch(`${API_BASE_URL}/comments/${commentId}/status`, {
+      const response = await fetch(buildApiUrl(`/comments/${commentId}/status`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status })
@@ -173,7 +173,7 @@ class RealAdminService {
 
   static async deleteComment(commentId: number) {
     try {
-      const response = await fetch(`${API_BASE_URL}/comments/${commentId}`, {
+      const response = await fetch(buildApiUrl(`/comments/${commentId}`), {
         method: 'DELETE'
       });
       if (!response.ok) throw new Error('Failed to delete comment');

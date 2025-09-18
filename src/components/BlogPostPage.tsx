@@ -24,13 +24,14 @@ interface BlogPost {
   view_count?: number;
   like_count?: number;
   comment_count?: number;
+  slug?: string;
   published: boolean;
   meta_description?: string;
   seo_title?: string;
 }
 
 const BlogPostPage: React.FC = () => {
-  const { postId } = useParams<{ postId: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -39,10 +40,7 @@ const BlogPostPage: React.FC = () => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        // For now, we'll fetch all posts and find the one with matching ID
-        // In the future, you could create a getBlogPostById method
-        const allPosts = await DataService.getAllBlogPosts();
-        const foundPost = allPosts.find((p: any) => p.id.toString() === postId);
+        const foundPost = await DataService.getBlogPostBySlug(slug || '');
         
         if (foundPost) {
           setPost(foundPost);
@@ -57,10 +55,10 @@ const BlogPostPage: React.FC = () => {
       }
     };
 
-    if (postId) {
+    if (slug) {
       fetchPost();
     }
-  }, [postId]);
+  }, [slug]);
 
   if (loading) {
     return (
@@ -150,7 +148,18 @@ const BlogPostPage: React.FC = () => {
                   <span>{new Date(post.date).toLocaleDateString()}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <User className="h-5 w-5" />
+                  {post.author_image ? (
+                    <img
+                      src={post.author_image}
+                      alt={post.author || 'Author'}
+                      className="w-5 h-5 rounded-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                      }}
+                    />
+                  ) : null}
+                  <User className={`h-5 w-5 ${post.author_image ? 'hidden' : ''}`} />
                   <span>{post.author}</span>
                 </div>
                 {post.view_count !== undefined && (

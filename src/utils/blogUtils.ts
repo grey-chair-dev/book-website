@@ -1,11 +1,11 @@
 // Utility functions for blog post management
 
-export const generateBlogPostUrl = (postId: number): string => {
-  return `/blog/${postId}`;
+export const generateBlogPostUrl = (post: { id: number; slug?: string }): string => {
+  return `/blog/${post.slug || post.id}`;
 };
 
-export const openBlogPostInNewTab = (postId: number): void => {
-  const url = generateBlogPostUrl(postId);
+export const openBlogPostInNewTab = (post: { id: number; slug?: string }): void => {
+  const url = generateBlogPostUrl(post);
   window.open(url, '_blank', 'noopener,noreferrer');
 };
 

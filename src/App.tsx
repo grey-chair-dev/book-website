@@ -54,7 +54,7 @@ const App: React.FC = () => {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/books" element={<BooksPage />} />
               <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:postId" element={<BlogPostPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
               <Route path="/contact" element={<ContactPage />} />
               
               {/* Admin Routes */}

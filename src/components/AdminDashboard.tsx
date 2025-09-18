@@ -184,6 +184,7 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+
   const handleUndo = async (tableName: string, recordId: string) => {
     try {
       // Mock undo functionality
@@ -639,8 +640,21 @@ const AdminDashboard: React.FC = () => {
                 {author ? (
                   <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
                     <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-primary-100 rounded-full flex items-center justify-center self-center sm:self-start">
-                        <User className="h-8 w-8 sm:h-10 sm:w-10 text-primary-600" />
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden self-center sm:self-start">
+                        {author.image ? (
+                          <img
+                            src={author.image}
+                            alt={author.name || 'Author'}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                            }}
+                          />
+                        ) : null}
+                        <div className={`w-full h-full bg-primary-100 flex items-center justify-center ${author.image ? 'hidden' : ''}`}>
+                          <User className="h-8 w-8 sm:h-10 sm:w-10 text-primary-600" />
+                        </div>
                       </div>
                       <div className="flex-1 text-center sm:text-left">
                         <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{author.name || 'Unknown Author'}</h3>

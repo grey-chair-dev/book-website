@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import emailService, { SubscriptionResult } from '../services/mockEmailService';
+import emailService, { SubscriptionResult } from '../services/realEmailService';
 
 interface EmailSubscriptionProps {
   source?: 'website' | 'blog' | 'admin' | 'import';

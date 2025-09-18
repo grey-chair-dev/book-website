@@ -12,6 +12,9 @@ interface BlogPost {
   category: string;
   featured: boolean;
   read_time: string;
+  slug?: string;
+  author?: string;
+  author_image?: string;
 }
 
 const Blog: React.FC = () => {
@@ -98,10 +101,29 @@ const Blog: React.FC = () => {
                   <p className="text-secondary-600">
                     {post.excerpt}
                   </p>
+
+                  {/* Author info */}
+                  <div className="flex items-center gap-2 pt-2">
+                    {post.author_image ? (
+                      <img
+                        src={post.author_image}
+                        alt={post.author || 'Author'}
+                        className="w-6 h-6 rounded-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                    ) : null}
+                    <div className={`w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center ${post.author_image ? 'hidden' : ''}`}>
+                      <PenTool className="h-3 w-3 text-primary-600" />
+                    </div>
+                    <span className="text-sm text-secondary-500">{post.author || 'C.E. Scott'}</span>
+                  </div>
                 </div>
 
                 <Link
-                  to={`/blog/${post.id}`}
+                  to={`/blog/${post.slug || post.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary-600 hover:text-primary-700 font-medium inline-flex items-center gap-1 transition-colors duration-200"

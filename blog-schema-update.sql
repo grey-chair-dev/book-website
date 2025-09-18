@@ -1,5 +1,5 @@
--- Enhanced Blog Posts Schema
--- Run this in your Supabase SQL Editor to add missing blog fields
+-- Enhanced Blog Posts Schema for Neon PostgreSQL
+-- Run this in your Neon SQL Editor to add missing blog fields
 
 -- Add new columns to existing blog_posts table
 ALTER TABLE blog_posts 
@@ -28,7 +28,7 @@ SET
   status = CASE WHEN published = true THEN 'published' ELSE 'draft' END,
   author_image = '/images/author/ce-scott.avif',
   author_bio = 'C.E. Scott is the author of the Heirs of Eleusa epic fantasy series.',
-  last_modified = updated_at
+  last_modified = COALESCE(updated_at, created_at, NOW())
 WHERE slug IS NULL;
 
 -- Create a function to generate slugs
@@ -58,3 +58,17 @@ CREATE TRIGGER trigger_auto_generate_blog_slug
   BEFORE INSERT OR UPDATE ON blog_posts
   FOR EACH ROW
   EXECUTE FUNCTION auto_generate_blog_slug();
+
+-- Additional indexes for better performance on Neon
+CREATE INDEX IF NOT EXISTS idx_blog_posts_featured ON blog_posts(featured) WHERE featured = true;
+CREATE INDEX IF NOT EXISTS idx_blog_posts_category ON blog_posts(category);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_author ON blog_posts(author);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_view_count ON blog_posts(view_count DESC);
+
+-- Add comments for documentation
+COMMENT ON TABLE blog_posts IS 'Enhanced blog posts table with SEO and social media features';
+COMMENT ON COLUMN blog_posts.slug IS 'URL-friendly identifier for the blog post';
+COMMENT ON COLUMN blog_posts.meta_description IS 'SEO meta description for search engines';
+COMMENT ON COLUMN blog_posts.social_image IS 'Image used when sharing on social media';
+COMMENT ON COLUMN blog_posts.view_count IS 'Number of times this post has been viewed';
+COMMENT ON COLUMN blog_posts.status IS 'Publication status: draft, published, or archived';
