@@ -58,11 +58,17 @@ const App: React.FC = () => {
               <Route path="/contact" element={<ContactPage />} />
               
               {/* Admin Routes */}
-              <Route path="/admin" element={<AdminLogin />} />
+              <Route path="/admin" element={
+                <ErrorBoundary>
+                  <AdminLogin />
+                </ErrorBoundary>
+              } />
               <Route path="/admin/dashboard" element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
+                <ErrorBoundary>
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                </ErrorBoundary>
               } />
             </Routes>
           </div>

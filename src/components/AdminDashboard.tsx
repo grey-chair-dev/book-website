@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAdmin } from '../contexts/AdminContext';
-import { BookOpen, PenTool, User, Settings, LogOut, Plus, Edit, Trash2, Save, History, Undo, ExternalLink, MessageCircle, Menu, X, Mail, Users } from 'lucide-react';
+import { BookOpen, PenTool, User, Settings, LogOut, Plus, Edit, Trash2, Save, History, Undo, ExternalLink, MessageCircle, Menu, X } from 'lucide-react';
 import { supabaseAdminService } from '../cms/supabaseAdminService';
 import EditHistory from './EditHistory';
 // import emailSubscriptionService, { EmailSubscription, SubscriptionStats } from '../services/emailSubscriptionService';
