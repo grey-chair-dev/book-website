@@ -24,7 +24,7 @@ interface BlogPost {
   view_count?: number;
   like_count?: number;
   comment_count?: number;
-  status: string;
+  published: boolean;
 }
 
 const BlogPage: React.FC = () => {

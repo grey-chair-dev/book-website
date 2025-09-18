@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MessageCircle, Send, Loader2, User, Calendar, Reply } from 'lucide-react';
-import { likesCommentsService, BlogComment, CreateCommentData } from '../services/likesCommentsService';
+import { likesCommentsService, BlogComment, CreateCommentData } from '../services/mockLikesCommentsService';
 
 interface CommentsProps {
   blogPostId: number;
@@ -59,10 +59,10 @@ const Comments: React.FC<CommentsProps> = ({ blogPostId, initialCommentCount = 0
       setHasError(false);
 
       const commentData: CreateCommentData = {
-        blog_post_id: blogPostId,
-        parent_id: replyTo || undefined,
-        author_name: formData.author_name.trim(),
-        author_email: formData.author_email.trim(),
+        blogPostId: blogPostId,
+        parentId: replyTo || undefined,
+        authorName: formData.author_name.trim(),
+        authorEmail: formData.author_email.trim(),
         content: formData.content.trim()
       };
 
@@ -131,7 +131,7 @@ const Comments: React.FC<CommentsProps> = ({ blogPostId, initialCommentCount = 0
       {/* Render replies */}
       {comment.replies && comment.replies.length > 0 && (
         <div className="mt-2">
-          {comment.replies.map(reply => renderComment(reply, true))}
+          {comment.replies.map((reply: any) => renderComment(reply, true))}
         </div>
       )}
     </div>

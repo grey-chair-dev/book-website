@@ -97,3 +97,18 @@ temp/
 
 # TypeScript cache
 *.tsbuildinfo 
+# Additional security patterns
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+secrets/
+credentials/
+config/secrets/
+*.secret
+*.private
+.env.*
+!.env.example

@@ -14,17 +14,8 @@ interface Author {
   education: string[];
   personal: string[];
   writing_journey: string[];
-  social_media: {
-    website: string;
-    email: string;
-    books_email: string;
-  };
-  stats: {
-    books_in_series: number;
-    kingdoms: string;
-    heroes: string;
-    prophecy: string;
-  };
+  social_media: Record<string, any>;
+  stats: Record<string, any>;
 }
 
 const AboutPage: React.FC = () => {
@@ -137,7 +128,7 @@ const AboutPage: React.FC = () => {
                 The Author Behind the Series
               </h2>
               
-              {/* Author photo from Supabase */}
+              {/* Author photo from database */}
               <div className="flex justify-center mb-8">
                 <div className="w-64 h-80 rounded-2xl overflow-hidden shadow-lg">
                   <img

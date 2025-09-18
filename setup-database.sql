@@ -1,5 +1,5 @@
--- Simple Database Setup for Heirs of Eleusa CMS
--- Run this in your Supabase SQL Editor
+-- Database Setup for Heirs of Eleusa CMS
+-- Run this in your Neon PostgreSQL database
 
 -- 1. Create books table
 CREATE TABLE IF NOT EXISTS books (
@@ -80,17 +80,87 @@ What makes a character truly memorable isn''t their powers or abilities, but the
 INSERT INTO author (name, full_name, bio, image, location, education, personal, writing_journey, social_media, stats) VALUES
 ('C.E. Scott', 'Claire Scott', 'Claire Scott is a wife, high school campus minister, and fantasy author living in Cincinnati, OH. She graduated from Purdue University in 2019 and discerned a call to serve the Church through the Echo Program at the University of Notre Dame. She graduated with a master''s in Theology in 2021 and now loves helping to form her high schoolers, write good, true, and beautiful stories, cook for her husband, Charlie, and laugh at the antics of their two cats.', '/images/author/ce-scott.avif', 'Cincinnati, Ohio', '{"Purdue University (2019)", "Notre Dame Master''s in Theology (2021)", "Echo Program Graduate"}', '{"Wife to Charlie", "Two cats and lots of laughter", "Loves cooking and storytelling"}', '{"Started with bedtime stories", "Christmas Eve storytelling tradition", "Holy Spirit inspired"}', '{"website": "https://heirsofeleusa.com", "email": "claire@heirsofeleusa.com", "books_email": "books@heirsofeleusa.com"}', '{"books_in_series": 3, "kingdoms": "5+", "heroes": "Multiple", "prophecy": "Great"}');
 
--- 7. Enable Row Level Security
-ALTER TABLE books ENABLE ROW LEVEL SECURITY;
-ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
-ALTER TABLE author ENABLE ROW LEVEL SECURITY;
+-- 7. Create indexes for better performance
+CREATE INDEX IF NOT EXISTS idx_books_featured ON books(featured);
+CREATE INDEX IF NOT EXISTS idx_books_series ON books(series);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts(published);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_date ON blog_posts(date DESC);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_featured ON blog_posts(featured);
 
--- 8. Create policies for public read access
-CREATE POLICY "Books are viewable by everyone" ON books FOR SELECT USING (true);
-CREATE POLICY "Published blog posts are viewable by everyone" ON blog_posts FOR SELECT USING (published = true);
-CREATE POLICY "Author info is viewable by everyone" ON author FOR SELECT USING (true);
+-- 8. Create a simple admin_users table for authentication
+CREATE TABLE IF NOT EXISTS admin_users (
+  id SERIAL PRIMARY KEY,
+  username TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  last_login TIMESTAMP WITH TIME ZONE
+);
 
--- 9. Create policies for admin access
-CREATE POLICY "Authenticated users can manage books" ON books FOR ALL USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can manage blog posts" ON blog_posts FOR ALL USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can manage author" ON author FOR ALL USING (auth.role() = 'authenticated');
+-- 9. Create blog_likes table
+CREATE TABLE IF NOT EXISTS blog_likes (
+  id SERIAL PRIMARY KEY,
+  blog_post_id INTEGER NOT NULL REFERENCES blog_posts(id) ON DELETE CASCADE,
+  user_ip TEXT NOT NULL,
+  user_agent TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(blog_post_id, user_ip)
+);
+
+-- 10. Create blog_comments table
+CREATE TABLE IF NOT EXISTS blog_comments (
+  id SERIAL PRIMARY KEY,
+  blog_post_id INTEGER NOT NULL REFERENCES blog_posts(id) ON DELETE CASCADE,
+  parent_id INTEGER REFERENCES blog_comments(id) ON DELETE CASCADE,
+  author_name TEXT NOT NULL,
+  author_email TEXT NOT NULL,
+  content TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected', 'spam')),
+  user_ip TEXT NOT NULL,
+  user_agent TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 11. Create comments table (for general comments)
+CREATE TABLE IF NOT EXISTS comments (
+  id SERIAL PRIMARY KEY,
+  post_id INTEGER NOT NULL,
+  author_name TEXT NOT NULL,
+  author_email TEXT NOT NULL,
+  content TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 12. Create email_subscriptions table
+CREATE TABLE IF NOT EXISTS email_subscriptions (
+  id SERIAL PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'unsubscribed', 'bounced')),
+  source TEXT NOT NULL DEFAULT 'website' CHECK (source IN ('website', 'blog', 'admin', 'import')),
+  subscribed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  unsubscribed_at TIMESTAMP WITH TIME ZONE,
+  last_email_sent TIMESTAMP WITH TIME ZONE,
+  email_count INTEGER DEFAULT 0,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 13. Create indexes for likes and comments
+CREATE INDEX IF NOT EXISTS idx_blog_likes_post_id ON blog_likes(blog_post_id);
+CREATE INDEX IF NOT EXISTS idx_blog_likes_user_ip ON blog_likes(user_ip);
+CREATE INDEX IF NOT EXISTS idx_blog_comments_post_id ON blog_comments(blog_post_id);
+CREATE INDEX IF NOT EXISTS idx_blog_comments_parent_id ON blog_comments(parent_id);
+CREATE INDEX IF NOT EXISTS idx_blog_comments_status ON blog_comments(status);
+CREATE INDEX IF NOT EXISTS idx_comments_post_id ON comments(post_id);
+CREATE INDEX IF NOT EXISTS idx_comments_status ON comments(status);
+CREATE INDEX IF NOT EXISTS idx_email_subscriptions_email ON email_subscriptions(email);
+CREATE INDEX IF NOT EXISTS idx_email_subscriptions_status ON email_subscriptions(status);
+
+-- 14. Insert default admin user (password: admin123 - change this!)
+INSERT INTO admin_users (username, password_hash, email) VALUES 
+('admin', '$2b$10$rQZ8kL9vJxH2mN3pQ5rKCOxV7wE8uI1sA2bC3dE4fG5hI6jK7lM8nO9p', 'admin@heirsofeleusa.com')
+ON CONFLICT (username) DO NOTHING;

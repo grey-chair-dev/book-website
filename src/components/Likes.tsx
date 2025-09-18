@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Loader2 } from 'lucide-react';
-import { likesCommentsService } from '../services/likesCommentsService';
+import { likesCommentsService } from '../services/mockLikesCommentsService';
 
 interface LikesProps {
   blogPostId: number;

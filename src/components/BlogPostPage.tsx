@@ -24,7 +24,7 @@ interface BlogPost {
   view_count?: number;
   like_count?: number;
   comment_count?: number;
-  status: string;
+  published: boolean;
   meta_description?: string;
   seo_title?: string;
 }
@@ -42,7 +42,7 @@ const BlogPostPage: React.FC = () => {
         // For now, we'll fetch all posts and find the one with matching ID
         // In the future, you could create a getBlogPostById method
         const allPosts = await DataService.getAllBlogPosts();
-        const foundPost = allPosts.find(p => p.id.toString() === postId);
+        const foundPost = allPosts.find((p: any) => p.id.toString() === postId);
         
         if (foundPost) {
           setPost(foundPost);
