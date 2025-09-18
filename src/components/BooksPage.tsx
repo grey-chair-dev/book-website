@@ -1,11 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, BookOpen, ArrowRight, ExternalLink } from 'lucide-react';
-import { books } from '../data/books';
+import DataService from '../services/dataService';
 import Header from './Header';
 import Footer from './Footer';
 
+interface Book {
+  id: string;
+  title: string;
+  series: string;
+  book_number: number;
+  year: string;
+  description: string;
+  cover: string;
+  featured: boolean;
+  genre: string[];
+}
+
 const BooksPage: React.FC = () => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const booksData = await DataService.getAllBooks();
+        setBooks(booksData);
+      } catch (error) {
+        console.error('Error fetching books:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooks();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-secondary-50">
+        <Header />
+        <main className="pt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div className="text-center">
+              <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-secondary-600">Loading books...</p>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-secondary-50">
       <Header />
@@ -52,10 +98,13 @@ const BooksPage: React.FC = () => {
                         <div className="book-shape">
                           <div className="book-cover-image">
                             <img
-                              src={`/images/covers/${book.cover}.avif`}
+                              src={book.cover}
                               alt={`${book.title} book cover`}
                               className="w-full h-full object-cover"
                               loading="lazy"
+                              onError={(e) => {
+                                e.currentTarget.src = '/images/covers/book-placeholder.svg';
+                              }}
                             />
                           </div>
                           <div className="book-spine"></div>
@@ -74,7 +123,7 @@ const BooksPage: React.FC = () => {
                         <div className="space-y-4">
                           <div className="flex items-center justify-between">
                             <span className="text-sm text-primary-600 font-medium">
-                              {book.series} • Book {book.bookNumber}
+                              {book.series} • Book {book.book_number}
                             </span>
                             <div className="flex items-center gap-1">
                               <Calendar className="h-4 w-4 text-secondary-400" aria-hidden="true" />

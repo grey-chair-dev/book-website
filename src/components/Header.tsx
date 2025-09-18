@@ -17,9 +17,9 @@ const Header: React.FC = () => {
 
   const navigationItems = [
     { name: 'Home', href: '/' },
-    { name: 'Book 1', href: '/book/the-heir-of-cebola' },
-    { name: 'Book 2', href: '/book/the-fox-prince' },
-    { name: 'Book 3', href: '/book/the-storm-veiled-light' },
+    { name: 'Book 1', href: '/book/heir-of-cebola' },
+    { name: 'Book 2', href: '/book/fox-prince' },
+    { name: 'Book 3', href: '/book/storm-veiled-light' },
     { name: 'About', href: '/about' },
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
@@ -30,10 +30,16 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-serif font-bold text-primary-700">
-              Heirs of Eleusa
-            </h1>
-            <p className="text-xs text-secondary-500 -mt-1">Epic Fantasy Series</p>
+            <Link 
+              to="/" 
+              className="block hover:opacity-80 transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-md p-1 -m-1"
+              aria-label="Go to home page"
+            >
+              <h1 className="text-2xl font-serif font-bold text-primary-700">
+                Heirs of Eleusa
+              </h1>
+              <p className="text-xs text-secondary-500 -mt-1">Epic Fantasy Series</p>
+            </Link>
           </div>
           
           <nav className="hidden md:block">

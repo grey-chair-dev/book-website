@@ -113,6 +113,28 @@ npm start
 
 4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+### Admin Access Setup
+
+The website includes a content management system for editing books, blog posts, and author information. To access the admin panel:
+
+1. Set up environment variables:
+```bash
+cp .env.example .env
+```
+
+2. Configure admin credentials in your `.env` file:
+```env
+REACT_APP_ADMIN_USERNAME=your-secure-username
+REACT_APP_ADMIN_PASSWORD=your-secure-password
+REACT_APP_ADMIN_EMAIL=admin@yourdomain.com
+```
+
+3. Navigate to `/admin` to access the login page
+
+4. Use your configured credentials to log in
+
+**Security Note**: Never commit your `.env` file to version control. The admin credentials should be strong and unique.
+
 ### Building for Production
 
 ```bash
@@ -190,7 +212,7 @@ All content is currently hardcoded in the components. For a production site, con
 
 ## License
 
-This project is for demonstration purposes. All content related to Suzanne Collins and her works is property of the respective copyright holders.
+This project is for demonstration purposes. All content related to C.E. Scott and her works is property of the respective copyright holders.
 
 ## Contributing
 
@@ -198,6 +220,5 @@ This is a demonstration project. For any issues or suggestions, please create an
 
 ## Acknowledgments
 
-- Suzanne Collins for her incredible literary works
-- Scholastic Inc. for publishing these amazing books
+- C.E. Scott for her incredible literary works
 - The React and TailwindCSS communities for excellent documentation 

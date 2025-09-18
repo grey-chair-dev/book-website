@@ -1,13 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, BookOpen, Users, Award, Quote } from 'lucide-react';
-import { getBookById } from '../data/books';
+import DataService from '../services/dataService';
 import Header from './Header';
 import Footer from './Footer';
 
+interface Book {
+  id: string;
+  title: string;
+  series: string;
+  book_number: number;
+  year: string;
+  description: string;
+  full_description: string;
+  cover: string;
+  featured: boolean;
+  characters: string[];
+  themes: string[];
+  quotes: string[];
+  author: string;
+  genre: string[];
+  awards: string[];
+}
+
 const BookPage: React.FC = () => {
   const { bookId } = useParams<{ bookId: string }>();
-  const book = bookId ? getBookById(bookId) : null;
+  const [book, setBook] = useState<Book | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBook = async () => {
+      if (!bookId) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const bookData = await DataService.getBookById(bookId);
+        setBook(bookData);
+      } catch (error) {
+        console.error('Error fetching book:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBook();
+  }, [bookId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-secondary-50">
+        <Header />
+        <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+          <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-secondary-600">Loading book details...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!book) {
     return (
@@ -55,7 +107,7 @@ const BookPage: React.FC = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <span className="text-sm text-primary-600 font-medium">
-                  {book.series} • Book {book.bookNumber}
+                  {book.series} • Book {book.book_number}
                 </span>
                 <span className="text-sm text-secondary-500">
                   {book.year}
@@ -67,7 +119,7 @@ const BookPage: React.FC = () => {
               </h1>
               
               <p className="text-xl text-secondary-700 leading-relaxed">
-                {book.fullDescription}
+                {book.full_description}
               </p>
             </div>
 
@@ -94,9 +146,12 @@ const BookPage: React.FC = () => {
             <div className="book-shape">
               <div className="book-cover-image">
                 <img
-                  src={`/images/covers/${book.cover}.avif`}
+                  src={book.cover}
                   alt={`${book.title} book cover`}
                   loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = '/images/covers/book-placeholder.svg';
+                  }}
                 />
               </div>
               <div className="book-spine"></div>

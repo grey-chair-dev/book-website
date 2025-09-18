@@ -16,6 +16,7 @@ import BookPage from './components/BookPage';
 import AboutPage from './components/AboutPage';
 import BooksPage from './components/BooksPage';
 import BlogPage from './components/BlogPage';
+import BlogPostPage from './components/BlogPostPage';
 import ContactPage from './components/ContactPage';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -53,6 +54,7 @@ const App: React.FC = () => {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/books" element={<BooksPage />} />
               <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:postId" element={<BlogPostPage />} />
               <Route path="/contact" element={<ContactPage />} />
               
               {/* Admin Routes */}

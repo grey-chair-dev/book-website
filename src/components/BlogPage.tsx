@@ -1,62 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PenTool, Calendar, ArrowRight, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import Likes from './Likes';
+import EmailSubscription from './EmailSubscription';
+import DataService from '../services/dataService';
+
+interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  read_time: string;
+  category: string;
+  featured: boolean;
+  featured_image?: string;
+  author: string;
+  author_image?: string;
+  author_bio?: string;
+  tags?: string[];
+  view_count?: number;
+  like_count?: number;
+  comment_count?: number;
+  status: string;
+}
 
 const BlogPage: React.FC = () => {
-  const blogPosts = [
-    {
-      id: 1,
-      title: "The Inspiration Behind Eleusa",
-      excerpt: "Discover how the world of Eleusa came to life from bedtime stories to epic fantasy series.",
-      date: "December 15, 2024",
-      readTime: "5 min read",
-      category: "Behind the Scenes",
-      featured: true
-    },
-    {
-      id: 2,
-      title: "Writing Fantasy with Purpose",
-      excerpt: "Exploring how faith and fantasy can work together to tell meaningful stories.",
-      date: "December 10, 2024",
-      readTime: "7 min read",
-      category: "Writing Process"
-    },
-    {
-      id: 3,
-      title: "Character Development: Creating Heroes",
-      excerpt: "The process of crafting characters that readers can connect with and root for.",
-      date: "December 5, 2024",
-      readTime: "6 min read",
-      category: "Writing Process"
-    },
-    {
-      id: 4,
-      title: "World-Building: The Kingdoms of Eleusa",
-      excerpt: "A deep dive into the geography, politics, and magic systems of the Eleusa universe.",
-      date: "November 28, 2024",
-      readTime: "8 min read",
-      category: "World Building"
-    },
-    {
-      id: 5,
-      title: "From Campus Minister to Author",
-      excerpt: "How my work in ministry influences my storytelling and character development.",
-      date: "November 20, 2024",
-      readTime: "4 min read",
-      category: "Personal"
-    },
-    {
-      id: 6,
-      title: "The Great Prophecy: Themes and Symbolism",
-      excerpt: "Exploring the deeper meanings and themes woven throughout the Heirs of Eleusa series.",
-      date: "November 15, 2024",
-      readTime: "9 min read",
-      category: "Analysis"
-    }
-  ];
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const categories = ["All", "Behind the Scenes", "Writing Process", "World Building", "Personal", "Analysis"];
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const postsData = await DataService.getAllBlogPosts();
+        setBlogPosts(postsData);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogPosts();
+  }, []);
+
+  // Get unique categories from blog posts
+  const categories = ["All", ...Array.from(new Set(blogPosts.map(post => post.category)))];
+
+  // Filter posts by selected category
+  const filteredPosts = selectedCategory === 'All' 
+    ? blogPosts 
+    : blogPosts.filter(post => post.category === selectedCategory);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-secondary-50">
+        <Header />
+        <main>
+          <section className="bg-gradient-to-br from-primary-50 to-secondary-100 section-padding">
+            <div className="max-w-7xl mx-auto text-center">
+              <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-secondary-600">Loading blog posts...</p>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-secondary-50">
@@ -82,7 +96,7 @@ const BlogPage: React.FC = () => {
                 Featured Post
               </h2>
               
-              {blogPosts.filter(post => post.featured).map((post) => (
+              {filteredPosts.filter(post => post.featured).map((post) => (
                 <div key={post.id} className="bg-gradient-to-r from-primary-50 to-secondary-100 rounded-2xl p-8 md:p-12">
                   <div className="grid lg:grid-cols-2 gap-8 items-center">
                     <div className="space-y-6">
@@ -90,7 +104,7 @@ const BlogPage: React.FC = () => {
                         <span className="bg-primary-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                           {post.category}
                         </span>
-                        <span className="text-secondary-600 text-sm">{post.readTime}</span>
+                        <span className="text-secondary-600 text-sm">{post.read_time}</span>
                       </div>
                       
                       <h3 className="text-3xl md:text-4xl font-serif font-bold text-secondary-900 leading-tight">
@@ -104,14 +118,19 @@ const BlogPage: React.FC = () => {
                       <div className="flex items-center gap-4 text-secondary-600">
                         <div className="flex items-center gap-2">
                           <Calendar className="h-5 w-5" aria-hidden="true" />
-                          <span>{post.date}</span>
+                          <span>{new Date(post.date).toLocaleDateString()}</span>
                         </div>
                       </div>
                       
-                      <button className="btn-primary inline-flex items-center gap-2">
+                      <Link
+                        to={`/blog/${post.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary inline-flex items-center gap-2"
+                      >
                         Read Full Post
                         <ArrowRight className="h-5 w-5" aria-hidden="true" />
-                      </button>
+                      </Link>
                     </div>
                     
                     <div className="relative">
@@ -154,8 +173,9 @@ const BlogPage: React.FC = () => {
               {categories.map((category) => (
                 <button
                   key={category}
+                  onClick={() => setSelectedCategory(category)}
                   className={`px-6 py-3 rounded-full font-medium transition-colors duration-200 ${
-                    category === "All"
+                    selectedCategory === category
                       ? "bg-primary-500 text-white"
                       : "bg-white text-secondary-700 hover:bg-primary-50 hover:text-primary-600"
                   }`}
@@ -166,15 +186,29 @@ const BlogPage: React.FC = () => {
             </div>
 
             {/* Posts Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogPosts.filter(post => !post.featured).map((post) => (
+            {filteredPosts.filter(post => !post.featured).length === 0 ? (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <PenTool className="h-8 w-8 text-gray-400" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">No posts found</h3>
+                <p className="text-gray-600">
+                  {selectedCategory === 'All' 
+                    ? 'No blog posts available yet.' 
+                    : `No posts found in the "${selectedCategory}" category.`
+                  }
+                </p>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredPosts.filter(post => !post.featured).map((post) => (
                 <article key={post.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                   <div className="p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <span className="bg-primary-100 text-primary-600 px-3 py-1 rounded-full text-sm font-medium">
                         {post.category}
                       </span>
-                      <span className="text-secondary-500 text-sm">{post.readTime}</span>
+                      <span className="text-secondary-500 text-sm">{post.read_time}</span>
                     </div>
                     
                     <h3 className="text-xl font-serif font-bold text-secondary-900 mb-3 leading-tight">
@@ -185,21 +219,42 @@ const BlogPage: React.FC = () => {
                       {post.excerpt}
                     </p>
                     
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-secondary-600">
-                        <Calendar className="h-4 w-4" aria-hidden="true" />
-                        <span className="text-sm">{post.date}</span>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-secondary-600">
+                          <Calendar className="h-4 w-4" aria-hidden="true" />
+                          <span className="text-sm">{new Date(post.date).toLocaleDateString()}</span>
+                        </div>
+                        
+                        <Link
+                          to={`/blog/${post.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary-600 hover:text-primary-700 font-medium text-sm inline-flex items-center gap-1 transition-colors duration-200"
+                        >
+                          Read More
+                          <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                        </Link>
                       </div>
                       
-                      <button className="text-primary-600 hover:text-primary-700 font-medium text-sm inline-flex items-center gap-1 transition-colors duration-200">
-                        Read More
-                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                      </button>
+                      <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                        <Likes 
+                          blogPostId={post.id} 
+                          initialLikeCount={post.like_count || 0}
+                          className="text-sm"
+                        />
+                        <div className="flex items-center gap-4 text-sm text-gray-500">
+                          {post.comment_count !== undefined && (
+                            <span>{post.comment_count} comments</span>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </article>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
@@ -214,19 +269,13 @@ const BlogPage: React.FC = () => {
             </p>
             
             <div className="max-w-md mx-auto">
-              <div className="flex gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary-300 focus:outline-none"
-                />
-                <button className="bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors duration-200">
-                  Subscribe
-                </button>
-              </div>
-              <p className="text-primary-200 text-sm mt-3">
-                No spam, just quality content. Unsubscribe anytime.
-              </p>
+              <EmailSubscription 
+                source="blog"
+                placeholder="Enter your email"
+                buttonText="Subscribe"
+                variant="inline"
+                className="text-white"
+              />
             </div>
           </div>
         </section>

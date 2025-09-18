@@ -1,10 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 
 // You'll need to replace these with your actual Supabase project credentials
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || 'https://your-project.supabase.co';
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY || 'your-anon-key';
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || 'https://dtnzylcnrbjknbygeksc.supabase.co';
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0bnp5bGNucmJqa25ieWdla3NjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxMzE1NTcsImV4cCI6MjA3MzcwNzU1N30.ypUzgh80NfKQut7SKVwU-abLCsEg_U7jWKREtiIQPb8';
+const supabaseServiceRoleKey = process.env.REACT_APP_SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0bnp5bGNucmJqa25ieWdla3NjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODEzMTU1NywiZXhwIjoyMDczNzA3NTU3fQ.PmhcdpwRdxOrhaHqTgLjA-Y-GyKRr0YCd7G7wu4DEvg';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 // Database types
 export interface Database {

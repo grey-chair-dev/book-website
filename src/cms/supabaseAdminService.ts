@@ -1,5 +1,5 @@
-import { supabase } from '../lib/supabase';
-import { Database } from '../lib/supabase';
+import { supabaseAdmin, Database } from '../lib/supabase';
+import { editHistoryService } from '../services/editHistoryService';
 
 type Book = Database['public']['Tables']['books']['Row'];
 type BookInsert = Database['public']['Tables']['books']['Insert'];
@@ -10,13 +10,14 @@ type BlogPostInsert = Database['public']['Tables']['blog_posts']['Insert'];
 type BlogPostUpdate = Database['public']['Tables']['blog_posts']['Update'];
 
 type Author = Database['public']['Tables']['author']['Row'];
+type AuthorInsert = Database['public']['Tables']['author']['Insert'];
 type AuthorUpdate = Database['public']['Tables']['author']['Update'];
 
 class SupabaseAdminService {
   // Books Management
   async getAllBooks(): Promise<Book[]> {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('books')
         .select('*')
         .order('book_number', { ascending: true });
@@ -31,7 +32,7 @@ class SupabaseAdminService {
 
   async getBookById(id: string): Promise<Book | null> {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('books')
         .select('*')
         .eq('id', id)
@@ -47,13 +48,24 @@ class SupabaseAdminService {
 
   async createBook(book: BookInsert): Promise<Book | null> {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('books')
         .insert(book)
         .select()
         .single();
 
       if (error) throw error;
+      
+      // Log the creation
+      await editHistoryService.logEdit(
+        'books',
+        data.id,
+        'create',
+        null,
+        data,
+        `Created book: ${data.title}`
+      );
+      
       return data;
     } catch (error) {
       console.error('Error creating book:', error);
@@ -63,7 +75,14 @@ class SupabaseAdminService {
 
   async updateBook(id: string, updates: BookUpdate): Promise<Book | null> {
     try {
-      const { data, error } = await supabase
+      // Get the current data before updating
+      const { data: oldData } = await supabaseAdmin
+        .from('books')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      const { data, error } = await supabaseAdmin
         .from('books')
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq('id', id)
@@ -71,6 +90,17 @@ class SupabaseAdminService {
         .single();
 
       if (error) throw error;
+      
+      // Log the update
+      await editHistoryService.logEdit(
+        'books',
+        id,
+        'update',
+        oldData,
+        data,
+        `Updated book: ${data.title}`
+      );
+      
       return data;
     } catch (error) {
       console.error('Error updating book:', error);
@@ -80,12 +110,30 @@ class SupabaseAdminService {
 
   async deleteBook(id: string): Promise<boolean> {
     try {
-      const { error } = await supabase
+      // Get the current data before deleting
+      const { data: oldData } = await supabaseAdmin
+        .from('books')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      const { error } = await supabaseAdmin
         .from('books')
         .delete()
         .eq('id', id);
 
       if (error) throw error;
+      
+      // Log the deletion
+      await editHistoryService.logEdit(
+        'books',
+        id,
+        'delete',
+        oldData,
+        null,
+        `Deleted book: ${oldData?.title || id}`
+      );
+      
       return true;
     } catch (error) {
       console.error('Error deleting book:', error);
@@ -96,7 +144,7 @@ class SupabaseAdminService {
   // Blog Posts Management
   async getAllBlogPosts(): Promise<BlogPost[]> {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('blog_posts')
         .select('*')
         .eq('published', true)
@@ -112,7 +160,7 @@ class SupabaseAdminService {
 
   async getBlogPostById(id: number): Promise<BlogPost | null> {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('blog_posts')
         .select('*')
         .eq('id', id)
@@ -128,13 +176,27 @@ class SupabaseAdminService {
 
   async createBlogPost(post: BlogPostInsert): Promise<BlogPost | null> {
     try {
-      const { data, error } = await supabase
+      // Remove id from the insert data if it's null or empty
+      const { id, ...insertData } = post;
+      
+      const { data, error } = await supabaseAdmin
         .from('blog_posts')
-        .insert(post)
+        .insert(insertData)
         .select()
         .single();
 
       if (error) throw error;
+      
+      // Log the creation
+      await editHistoryService.logEdit(
+        'blog_posts',
+        data.id.toString(),
+        'create',
+        null,
+        data,
+        `Created blog post: ${data.title}`
+      );
+      
       return data;
     } catch (error) {
       console.error('Error creating blog post:', error);
@@ -144,7 +206,7 @@ class SupabaseAdminService {
 
   async updateBlogPost(id: number, updates: BlogPostUpdate): Promise<BlogPost | null> {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('blog_posts')
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq('id', id)
@@ -161,7 +223,7 @@ class SupabaseAdminService {
 
   async deleteBlogPost(id: number): Promise<boolean> {
     try {
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from('blog_posts')
         .delete()
         .eq('id', id);
@@ -177,7 +239,7 @@ class SupabaseAdminService {
   // Author Management
   async getAuthor(): Promise<Author | null> {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('author')
         .select('*')
         .single();
@@ -190,11 +252,44 @@ class SupabaseAdminService {
     }
   }
 
+  async createAuthor(author: AuthorInsert): Promise<Author | null> {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('author')
+        .insert(author)
+        .select('*')
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error creating author:', error);
+      return null;
+    }
+  }
+
   async updateAuthor(updates: AuthorUpdate): Promise<Author | null> {
     try {
-      const { data, error } = await supabase
+      // First, get the existing author record to get its ID
+      const { data: existingAuthor, error: fetchError } = await supabaseAdmin
+        .from('author')
+        .select('id')
+        .single();
+
+      if (fetchError) {
+        console.error('Error fetching author for update:', fetchError);
+        return null;
+      }
+
+      if (!existingAuthor) {
+        console.error('No author record found to update');
+        return null;
+      }
+
+      const { data, error } = await supabaseAdmin
         .from('author')
         .update({ ...updates, updated_at: new Date().toISOString() })
+        .eq('id', existingAuthor.id)
         .select()
         .single();
 
@@ -209,7 +304,7 @@ class SupabaseAdminService {
   // Search functionality
   async searchBooks(query: string): Promise<Book[]> {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('books')
         .select('*')
         .or(`title.ilike.%${query}%,description.ilike.%${query}%`)
@@ -225,7 +320,7 @@ class SupabaseAdminService {
 
   async searchBlogPosts(query: string): Promise<BlogPost[]> {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('blog_posts')
         .select('*')
         .eq('published', true)
@@ -237,6 +332,58 @@ class SupabaseAdminService {
     } catch (error) {
       console.error('Error searching blog posts:', error);
       return [];
+    }
+  }
+
+  // Comments management
+  async getAllComments(): Promise<any[]> {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('blog_comments')
+        .select(`
+          *,
+          blog_posts!inner(title)
+        `)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      return [];
+    }
+  }
+
+  async updateCommentStatus(commentId: number, status: 'pending' | 'approved' | 'rejected' | 'spam'): Promise<boolean> {
+    try {
+      const { error } = await supabaseAdmin
+        .from('blog_comments')
+        .update({ 
+          status, 
+          updated_at: new Date().toISOString() 
+        })
+        .eq('id', commentId);
+
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error('Error updating comment status:', error);
+      return false;
+    }
+  }
+
+  async deleteComment(commentId: number): Promise<boolean> {
+    try {
+      const { error } = await supabaseAdmin
+        .from('blog_comments')
+        .delete()
+        .eq('id', commentId);
+
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      return false;
     }
   }
 

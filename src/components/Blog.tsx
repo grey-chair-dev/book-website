@@ -1,34 +1,50 @@
-import React from 'react';
-import { Calendar, ExternalLink, PenTool } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Calendar, ExternalLink, PenTool, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import DataService from '../services/dataService';
+import EmailSubscription from './EmailSubscription';
+
+interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  date: string;
+  category: string;
+  featured: boolean;
+  read_time: string;
+}
 
 const Blog: React.FC = () => {
-  const blogPosts = [
-    {
-      title: 'The Inspiration Behind The Heirs of Eleusa',
-      description: 'Exploring the mythological roots and creative process that brought this epic fantasy series to life.',
-      date: '2024-12-15',
-      type: 'Behind the Scenes',
-      featured: true
-    },
-    {
-      title: 'Character Development: Creating Memorable Protagonists',
-      description: 'A deep dive into how I craft characters that readers connect with and remember long after finishing the book.',
-      date: '2024-11-28',
-      type: 'Writing Process'
-    },
-    {
-      title: 'World-Building in Fantasy Fiction',
-      description: 'Tips and techniques for creating immersive fantasy worlds that feel real and lived-in.',
-      date: '2024-11-10',
-      type: 'Writing Tips'
-    },
-    {
-      title: 'The Journey from First Draft to Publication',
-      description: 'Sharing the ups and downs of the publishing process and what I\'ve learned along the way.',
-      date: '2024-10-22',
-      type: 'Publishing'
-    }
-  ];
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const postsData = await DataService.getAllBlogPosts();
+        setBlogPosts(postsData);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogPosts();
+  }, []);
+
+  if (loading) {
+    return (
+      <section id="blog" className="bg-white section-padding">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-secondary-600">Loading blog posts...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="blog" className="bg-white section-padding">
@@ -43,9 +59,9 @@ const Blog: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {blogPosts.map((post, index) => (
+          {blogPosts.map((post) => (
             <div
-              key={index}
+              key={post.id}
               className={`card p-6 ${
                 post.featured ? 'ring-2 ring-primary-500' : ''
               }`}
@@ -66,12 +82,12 @@ const Blog: React.FC = () => {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      post.type === 'Behind the Scenes' ? 'bg-purple-100 text-purple-800' :
-                      post.type === 'Writing Process' ? 'bg-blue-100 text-blue-800' :
-                      post.type === 'Writing Tips' ? 'bg-green-100 text-green-800' :
+                      post.category === 'Behind the Scenes' ? 'bg-purple-100 text-purple-800' :
+                      post.category === 'Writing Process' ? 'bg-blue-100 text-blue-800' :
+                      post.category === 'Writing Tips' ? 'bg-green-100 text-green-800' :
                       'bg-orange-100 text-orange-800'
                     }`}>
-                      {post.type}
+                      {post.category}
                     </span>
                   </div>
 
@@ -80,21 +96,36 @@ const Blog: React.FC = () => {
                   </h3>
                   
                   <p className="text-secondary-600">
-                    {post.description}
+                    {post.excerpt}
                   </p>
                 </div>
 
-                <button
+                <Link
+                  to={`/blog/${post.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-primary-600 hover:text-primary-700 font-medium inline-flex items-center gap-1 transition-colors duration-200"
                   tabIndex={0}
                   aria-label={`Read more about ${post.title}`}
                 >
                   Read More
                   <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                </button>
+                </Link>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* View All Posts Button */}
+        <div className="text-center mt-12">
+          <Link
+            to="/blog"
+            className="btn-primary inline-flex items-center gap-2"
+            aria-label="View all blog posts"
+          >
+            View All Posts
+            <ArrowRight className="h-5 w-5" aria-hidden="true" />
+          </Link>
         </div>
 
         <div className="mt-16 bg-gradient-to-br from-primary-50 to-secondary-100 rounded-2xl p-8">
@@ -107,21 +138,12 @@ const Blog: React.FC = () => {
                 Subscribe to receive updates about new blog posts, writing insights, and exclusive content.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="flex-1 px-4 py-3 border border-secondary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  aria-label="Email address for blog subscription"
-                />
-                <button
-                  className="btn-primary whitespace-nowrap"
-                  tabIndex={0}
-                  aria-label="Subscribe to blog updates"
-                >
-                  Subscribe
-                </button>
-              </div>
+              <EmailSubscription 
+                source="blog"
+                placeholder="Enter your email address"
+                buttonText="Subscribe"
+                variant="default"
+              />
             </div>
 
             <div className="text-center space-y-4">

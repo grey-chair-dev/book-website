@@ -1,15 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ExternalLink, Calendar } from 'lucide-react';
-import { books } from '../data/books';
+import DataService from '../services/dataService';
+
+interface Book {
+  id: string;
+  title: string;
+  series: string;
+  book_number: number;
+  year: string;
+  description: string;
+  cover: string;
+}
 
 const BookGallery: React.FC = () => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const booksData = await DataService.getAllBooks();
+        setBooks(booksData);
+      } catch (error) {
+        console.error('Error fetching books:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooks();
+  }, []);
 
   const handleKeyDown = (event: React.KeyboardEvent, bookId: string) => {
     if (event.key === 'Enter' || event.key === ' ') {
       // Navigation will be handled by the Link component
     }
   };
+
+  if (loading) {
+    return (
+      <section id="books" className="bg-secondary-50 section-padding">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-secondary-600">Loading books...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="books" className="bg-secondary-50 section-padding">
@@ -37,9 +77,12 @@ const BookGallery: React.FC = () => {
                   <div className="book-card-shape">
                     <div className="book-card-cover">
                       <img
-                        src={`/images/covers/${book.cover}.avif`}
+                        src={book.cover}
                         alt={`${book.title} book cover`}
                         loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = '/images/covers/book-placeholder.svg';
+                        }}
                       />
                     </div>
                     <div className="book-card-spine"></div>

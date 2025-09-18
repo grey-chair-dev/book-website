@@ -1,51 +1,111 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Award, Globe, Users, BookOpen, Heart, GraduationCap, MapPin, PenTool } from 'lucide-react';
+import DataService from '../services/dataService';
 import Header from './Header';
 import Footer from './Footer';
 
+interface Author {
+  id: number;
+  name: string;
+  full_name: string;
+  bio: string;
+  image: string;
+  location: string;
+  education: string[];
+  personal: string[];
+  writing_journey: string[];
+  social_media: {
+    website: string;
+    email: string;
+    books_email: string;
+  };
+  stats: {
+    books_in_series: number;
+    kingdoms: string;
+    heroes: string;
+    prophecy: string;
+  };
+}
+
 const AboutPage: React.FC = () => {
+  const [author, setAuthor] = useState<Author | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      try {
+        const authorData = await DataService.getAuthor();
+        setAuthor(authorData);
+      } catch (error) {
+        console.error('Error fetching author:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAuthor();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-secondary-50">
+        <Header />
+        <main className="pt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div className="text-center">
+              <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-secondary-600">Loading author information...</p>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!author) {
+    return (
+      <div className="min-h-screen bg-secondary-50">
+        <Header />
+        <main className="pt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div className="text-center">
+              <p className="text-secondary-600">Author information not available.</p>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   const stats = [
-    { icon: BookOpen, label: 'Books in Series', value: '3' },
-    { icon: Globe, label: 'Kingdoms', value: '5+' },
-    { icon: Users, label: 'Heroes', value: 'Multiple' },
-    { icon: Award, label: 'Prophecy', value: 'Great' },
+    { icon: BookOpen, label: 'Books in Series', value: author.stats.books_in_series.toString() },
+    { icon: Globe, label: 'Kingdoms', value: author.stats.kingdoms },
+    { icon: Users, label: 'Heroes', value: author.stats.heroes },
+    { icon: Award, label: 'Prophecy', value: author.stats.prophecy },
   ];
 
   const authorDetails = [
     {
       icon: GraduationCap,
       title: 'Education',
-      details: [
-        'Purdue University (2019)',
-        'Notre Dame Master\'s in Theology (2021)',
-        'Echo Program Graduate'
-      ]
+      details: author.education
     },
     {
       icon: MapPin,
       title: 'Location',
-      details: [
-        'Cincinnati, Ohio',
-        'High School Campus Minister'
-      ]
+      details: [author.location, 'High School Campus Minister']
     },
     {
       icon: Heart,
       title: 'Personal',
-      details: [
-        'Wife to Charlie',
-        'Two cats and lots of laughter',
-        'Loves cooking and storytelling'
-      ]
+      details: author.personal
     },
     {
       icon: PenTool,
       title: 'Writing Journey',
-      details: [
-        'Started with bedtime stories',
-        'Christmas Eve storytelling tradition',
-        'Holy Spirit inspired'
-      ]
+      details: author.writing_journey
     }
   ];
 
@@ -59,10 +119,10 @@ const AboutPage: React.FC = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
-                About C.E. Scott
+                About {author.name}
               </h1>
               <p className="text-xl md:text-2xl text-primary-100 max-w-4xl mx-auto leading-relaxed">
-                Wife, high school campus minister, and fantasy author from Cincinnati, OH
+                {author.bio}
               </p>
             </div>
           </div>
@@ -77,15 +137,15 @@ const AboutPage: React.FC = () => {
                 The Author Behind the Series
               </h2>
               
-              {/* Author photo is located at /public/images/author/ce-scott.avif */}
+              {/* Author photo from Supabase */}
               <div className="flex justify-center mb-8">
                 <div className="w-64 h-80 rounded-2xl overflow-hidden shadow-lg">
                   <img
-                    src="/images/author/ce-scott.avif"
-                    alt="C.E. Scott, author of the Heirs of Eleusa series"
+                    src={author.image}
+                    alt={`${author.full_name}, author of the Heirs of Eleusa series`}
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      // Fallback to placeholder SVG if image doesn't exist
+                      // Fallback to placeholder if image doesn't exist
                       const target = e.target as HTMLImageElement;
                       target.src = '/images/author/ce-scott-placeholder.svg';
                     }}
