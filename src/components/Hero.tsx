@@ -1,5 +1,6 @@
 import React from 'react';
-import { ArrowRight, BookOpen } from 'lucide-react';
+import { ArrowRight, BookOpen, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Hero: React.FC = () => {
   const handleLearnMore = () => {
@@ -43,6 +44,14 @@ const Hero: React.FC = () => {
                 <ArrowRight className="h-5 w-5" aria-hidden="true" />
               </button>
               
+              <Link
+                to="/map"
+                className="btn-secondary inline-flex items-center gap-2"
+                aria-label="Explore the interactive map"
+              >
+                <MapPin className="h-5 w-5" aria-hidden="true" />
+                Explore Map
+              </Link>
             </div>
           </div>
           <div className="relative animate-slide-up">
