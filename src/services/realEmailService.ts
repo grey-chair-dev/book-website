@@ -10,7 +10,7 @@ export interface SubscriptionResult {
 export class RealEmailService {
   static async subscribe(email: string, source: string = 'website'): Promise<SubscriptionResult> {
     try {
-      const response = await fetch(`buildApiUrl('/email-subscriptions')`, {
+      const response = await fetch(buildApiUrl('/email-subscriptions'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -45,7 +45,7 @@ export class RealEmailService {
 
   static async unsubscribe(email: string): Promise<SubscriptionResult> {
     try {
-      const response = await fetch(`buildApiUrl('/email-subscriptions')`, {
+      const response = await fetch(buildApiUrl('/email-subscriptions'), {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -74,7 +74,7 @@ export class RealEmailService {
 
   static async getSubscriptions(): Promise<any[]> {
     try {
-      const response = await fetch(`buildApiUrl('/email-subscriptions')`);
+      const response = await fetch(buildApiUrl('/email-subscriptions'));
       if (!response.ok) return [];
       return await response.json();
     } catch (error) {
